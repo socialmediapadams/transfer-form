@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internal Employee Transfer Request — Padams Group</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#1a0a0a;color:#1a1a1a;min-height:100vh;padding:24px 16px 48px}
+.page-wrap{max-width:800px;margin:0 auto}
+
+/* ── Header ── */
+.form-header{background:linear-gradient(135deg,#1a0000 0%,#8B0000 60%,#a00000 100%);border-radius:14px 14px 0 0;padding:26px 32px 22px;color:#fff;text-align:center;position:relative;overflow:hidden}
+.form-header::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.04)}
+.form-header::after{content:'';position:absolute;bottom:-50px;left:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.03)}
+.form-header .company{font-size:12px;font-weight:800;letter-spacing:3px;text-transform:uppercase;opacity:.75;margin-bottom:6px}
+.form-header h1{font-size:20px;font-weight:700;line-height:1.3;margin-bottom:3px}
+.form-header .sub{font-size:12px;opacity:.65;margin-top:2px}
+.header-bottom{display:flex;align-items:center;justify-content:flex-end;margin-top:14px;gap:10px;position:relative;z-index:1}
+.header-bottom label{font-size:12.5px;opacity:.85;font-weight:600}
+.header-bottom input{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:7px;color:#fff;padding:5px 10px;font-size:13px;outline:none;height:32px;width:160px}
+.header-bottom input::-webkit-calendar-picker-indicator{filter:invert(1);opacity:.7}
+
+/* ── Form body ── */
+.form-body{background:#fff;border-radius:0 0 14px 14px;border:1px solid #2a0000;border-top:none;overflow:hidden}
+
+/* ── Section ── */
+.section{padding:20px 28px 22px;border-bottom:1px solid #f0e8e8}
+.section:last-child{border-bottom:none}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.sec-num{width:27px;height:27px;border-radius:50%;background:#8B0000;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sec-title{font-size:12.5px;font-weight:800;color:#8B0000;text-transform:uppercase;letter-spacing:.7px}
+.sec-line{flex:1;height:1px;background:linear-gradient(to right,#e8c0c0,transparent)}
+
+/* ── Grid ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.grid-2:last-child,.grid-3:last-child{margin-bottom:0}
+@media(max-width:600px){
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .section{padding:16px 16px 18px}
+  .form-header{padding:18px 16px 16px}
+}
+
+/* ── Field ── */
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.field:last-child{margin-bottom:0}
+.field label{font-size:12px;font-weight:700;color:#5a0000}
+.field label .req{color:#cc0000;margin-left:2px}
+.field input,.field textarea,.field select{
+  width:100%;padding:8px 12px;
+  border:1px solid #ddc0c0;border-radius:8px;
+  font-size:13.5px;font-family:inherit;
+  background:#fff;color:#1a1a1a;outline:none;
+  transition:border-color .18s,box-shadow .18s}
+.field input,.field select{height:37px}
+.field textarea{resize:vertical;min-height:72px;line-height:1.55}
+.field input:focus,.field textarea:focus,.field select:focus{
+  border-color:#8B0000;box-shadow:0 0 0 3px rgba(139,0,0,.1)}
+.field input.error,.field textarea.error{
+  border-color:#cc0000;box-shadow:0 0 0 3px rgba(204,0,0,.1)}
+.err-msg{font-size:11.5px;color:#a32d2d;margin-top:3px;display:none}
+.err-msg.show{display:block}
+
+/* ── Option buttons ── */
+.option-group{display:flex;flex-wrap:wrap;gap:9px;margin-top:4px}
+.opt-item{display:flex;align-items:center;gap:7px;padding:8px 14px;
+  border:1px solid #ddc0c0;border-radius:8px;cursor:pointer;
+  font-size:13px;color:#3a0000;font-weight:500;
+  transition:border-color .15s,background .15s;user-select:none}
+.opt-item:hover{border-color:#8B0000;background:#fff0f0}
+.opt-item input{width:15px;height:15px;accent-color:#8B0000;cursor:pointer;margin:0}
+.opt-item.selected{border-color:#8B0000;background:#ffe8e8;color:#6b0000}
+.option-group.error .opt-item{border-color:#cc0000}
+
+/* ── Other reason ── */
+.other-wrap{display:flex;align-items:center;gap:8px;padding:8px 14px;
+  border:1px solid #ddc0c0;border-radius:8px;cursor:pointer;
+  transition:border-color .15s,background .15s}
+.other-wrap:hover{border-color:#8B0000;background:#fff0f0}
+.other-wrap.selected{border-color:#8B0000;background:#ffe8e8}
+.other-wrap input[type=radio]{width:15px;height:15px;accent-color:#8B0000;cursor:pointer;flex-shrink:0}
+.other-wrap label{font-size:13px;font-weight:500;color:#3a0000;cursor:pointer;white-space:nowrap}
+.other-text{border:none;border-bottom:1px solid #c0a0a0;outline:none;font-size:13px;
+  font-family:inherit;color:#1a1a1a;background:transparent;flex:1;padding:2px 4px;min-width:120px}
+.other-text:focus{border-bottom-color:#8B0000}
+
+/* ── Confirm checkboxes ── */
+.confirm-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;
+  border:1px solid #ddc0c0;border-radius:8px;margin-bottom:8px;cursor:pointer;
+  transition:border-color .15s,background .15s}
+.confirm-item:hover{border-color:#8B0000;background:#fff8f8}
+.confirm-item.checked{border-color:#8B0000;background:#ffe8e8}
+.confirm-item input[type=checkbox]{width:16px;height:16px;min-width:16px;
+  accent-color:#8B0000;margin-top:2px;cursor:pointer}
+.confirm-item span{font-size:13px;color:#1a1a1a;line-height:1.5;font-weight:500}
+
+/* ── Approval cards ── */
+.approval-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.approval-grid{grid-template-columns:1fr}}
+.approval-card{background:#fdf5f5;border:1px solid #e8c8c8;border-radius:10px;padding:14px 16px;border-top:3px solid #8B0000}
+.approval-card .card-title{font-size:11.5px;font-weight:800;color:#8B0000;
+  text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;
+  padding-bottom:8px;border-bottom:1px solid #e8c8c8}
+
+/* ── Signature box ── */
+.sig-wrap{margin-top:8px}
+.sig-box{
+  width:100%;height:64px;
+  border:1px dashed #c0a0a0;border-radius:8px;
+  background:#fffafa;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;position:relative}
+.sig-box canvas{position:absolute;top:0;left:0;width:100%;height:100%}
+.sig-placeholder{font-size:12px;color:#c0a0a0;font-style:italic;pointer-events:none;z-index:1}
+.sig-name-display{
+  font-family:'Brush Script MT','Segoe Script','Comic Sans MS',cursive;
+  font-size:26px;color:#1a0a0a;
+  pointer-events:none;
+  padding:0 12px;
+  white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:100%;
+  text-align:center}
+.sig-label{font-size:11px;color:#8a6060;margin-top:4px;text-align:center}
+
+/* ── HR section ── */
+.hr-section{background:#1a0000;border-radius:10px;padding:18px 20px;color:#fff}
+.hr-tag{display:inline-block;font-size:11px;font-weight:700;
+  background:#8B0000;color:#fff;padding:3px 10px;border-radius:20px;
+  margin-bottom:14px;text-transform:uppercase;letter-spacing:.6px}
+.hr-section .field label{color:#ffb0b0}
+.hr-section .field input{background:#2a0505;border-color:#5a2020;color:#fff}
+.hr-section .field input:focus{border-color:#cc4444;box-shadow:0 0 0 3px rgba(139,0,0,.25)}
+.hr-section .field input::-webkit-calendar-picker-indicator{filter:invert(1);opacity:.7}
+.hr-section .opt-item{background:transparent;border-color:#5a2020;color:#ffb0b0}
+.hr-section .opt-item:hover{background:#3a0808;border-color:#cc4444}
+.hr-section .opt-item.selected{background:#5a0000;border-color:#cc4444;color:#fff}
+
+/* ── Submit ── */
+.submit-wrap{background:#fff;border:1px solid #2a0000;border-top:none;border-radius:0 0 14px 14px;padding:20px 28px 28px}
+.btn-submit{width:100%;padding:13px;
+  background:linear-gradient(135deg,#6b0000,#8B0000);
+  color:#fff;border:none;border-radius:9px;
+  font-size:15px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:background .2s,transform .1s;letter-spacing:.3px}
+.btn-submit:hover{background:linear-gradient(135deg,#8B0000,#b00000)}
+.btn-submit:active{transform:scale(.99)}
+.btn-submit:disabled{background:#888;cursor:not-allowed}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.4);
+  border-top-color:#fff;border-radius:50%;
+  animation:spin .7s linear infinite;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{display:none;margin-top:14px;padding:12px 16px;border-radius:8px;font-size:13px;font-weight:600}
+.toast.success{background:#eaf3de;color:#27500a;border:1px solid #c0dd97;display:flex;align-items:center;gap:8px}
+.toast.error{background:#fcebeb;color:#791f1f;border:1px solid #f7c1c1;display:flex;align-items:center;gap:8px}
+.info-note{font-size:12px;color:#6b0000;background:#fff0f0;border:1px solid #e8c0c0;
+  border-radius:7px;padding:8px 12px;margin-bottom:14px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<!-- ── HEADER ── -->
+<div class="form-header">
+  <div class="company">&#9670; Padams Group &#9670;</div>
+  <h1>Internal Employee Transfer Request Form</h1>
+  <p class="sub">Human Resources Department &nbsp;&bull;&nbsp; Confidential</p>
+  <div class="header-bottom">
+    <label for="formDate">Date:</label>
+    <input type="date" id="formDate" min="2000-01-01" max="2099-12-31">
+  </div>
+</div>
+
+<div class="form-body">
+<form id="transferForm" novalidate>
+
+<!-- ══ SECTION 1 ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="sec-num">1</div>
+    <div class="sec-title">Employee Details</div>
+    <div class="sec-line"></div>
+  </div>
+  <div class="grid-2">
+    <div class="field">
+      <label for="empName">Employee Name <span class="req">*</span></label>
+      <input type="text" id="empName" placeholder="Full name">
+      <span class="err-msg" id="err-empName">Please enter employee name.</span>
+    </div>
+    <div class="field">
+      <label for="empId">Employee ID <span class="req">*</span></label>
+      <input type="text" id="empId" placeholder="e.g. EMP00123">
+      <span class="err-msg" id="err-empId">Please enter employee ID.</span>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="field">
+      <label for="designation">Designation <span class="req">*</span></label>
+      <input type="text" id="designation" placeholder="e.g. Site Engineer">
+      <span class="err-msg" id="err-designation">Please enter designation.</span>
+    </div>
+    <div class="field">
+      <label for="department">Department <span class="req">*</span></label>
+      <input type="text" id="department" placeholder="e.g. Operations">
+      <span class="err-msg" id="err-department">Please enter department.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 2 ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="sec-num">2</div>
+    <div class="sec-title">Transfer Details</div>
+    <div class="sec-line"></div>
+  </div>
+  <div class="grid-2">
+    <div class="field">
+      <label for="currentProject">Current Project / Site <span class="req">*</span></label>
+      <input type="text" id="currentProject" placeholder="Current project or site">
+      <span class="err-msg" id="err-currentProject">Please enter current project/site.</span>
+    </div>
+    <div class="field">
+      <label for="proposedProject">Proposed Project / Site <span class="req">*</span></label>
+      <input type="text" id="proposedProject" placeholder="Proposed project or site">
+      <span class="err-msg" id="err-proposedProject">Please enter proposed project/site.</span>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="field">
+      <label for="currentRM">Current Reporting Manager <span class="req">*</span></label>
+      <input type="text" id="currentRM" placeholder="Name of current manager">
+      <span class="err-msg" id="err-currentRM">Please enter current reporting manager.</span>
+    </div>
+    <div class="field">
+      <label for="receivingRM">Receiving Reporting Manager <span class="req">*</span></label>
+      <input type="text" id="receivingRM" placeholder="Name of receiving manager">
+      <span class="err-msg" id="err-receivingRM">Please enter receiving reporting manager.</span>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="field">
+      <label for="effectiveDate">Effective Date of Transfer <span class="req">*</span></label>
+      <input type="date" id="effectiveDate" min="2000-01-01" max="2099-12-31">
+      <span class="err-msg" id="err-effectiveDate">Please select effective date.</span>
+    </div>
+    <div class="field">
+      <label>Type of Transfer <span class="req">*</span></label>
+      <div class="option-group" id="transferTypeGroup">
+        <label class="opt-item" id="lbl-temp">
+          <input type="radio" name="transferType" value="Temporary" onchange="selectTransferType('Temporary')"> &#9711; Temporary
+        </label>
+        <label class="opt-item" id="lbl-perm">
+          <input type="radio" name="transferType" value="Permanent" onchange="selectTransferType('Permanent')"> &#9711; Permanent
+        </label>
+      </div>
+      <span class="err-msg" id="err-transferType">Please select transfer type.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 3 ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="sec-num">3</div>
+    <div class="sec-title">Reason for Transfer</div>
+    <div class="sec-line"></div>
+  </div>
+  <div class="field" style="margin-bottom:14px">
+    <label>Select Reason <span class="req">*</span></label>
+    <div class="option-group" id="reasonGroup" style="flex-direction:column;align-items:flex-start;gap:8px">
+      <label class="opt-item" onclick="selectReason(this)"><input type="radio" name="reason" value="Project Requirement"> Project Requirement</label>
+      <label class="opt-item" onclick="selectReason(this)"><input type="radio" name="reason" value="Client Requirement"> Client Requirement</label>
+      <label class="opt-item" onclick="selectReason(this)"><input type="radio" name="reason" value="Business Requirement"> Business Requirement</label>
+      <label class="opt-item" onclick="selectReason(this)"><input type="radio" name="reason" value="Temporary Deployment"> Temporary Deployment</label>
+      <div class="other-wrap" id="otherWrap" onclick="selectReasonOther()">
+        <input type="radio" name="reason" id="radioOther" value="Other">
+        <label for="radioOther" onclick="event.stopPropagation()">Other:</label>
+        <input type="text" class="other-text" id="reasonOther" placeholder="Please specify..." onclick="event.stopPropagation();selectReasonOther()">
+      </div>
+    </div>
+    <span class="err-msg" id="err-reason">Please select a reason for transfer.</span>
+  </div>
+  <div class="field">
+    <label for="justification">Brief Justification <span class="req">*</span></label>
+    <textarea id="justification" placeholder="Provide a brief justification for this transfer request..." maxlength="600"></textarea>
+    <span class="err-msg" id="err-justification">Please provide justification.</span>
+  </div>
+</div>
+
+<!-- ══ SECTION 4 ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="sec-num">4</div>
+    <div class="sec-title">Release Confirmation</div>
+    <div class="sec-line"></div>
+  </div>
+  <p style="font-size:12.5px;color:#5a0000;margin-bottom:12px;font-weight:600">I confirm that:</p>
+  <label class="confirm-item" id="ci-release" onclick="toggleConfirm('canRelease','ci-release')">
+    <input type="checkbox" id="canRelease">
+    <span>The employee can be released from the current project.</span>
+  </label>
+  <label class="confirm-item" id="ci-handover" onclick="toggleConfirm('handoverDone','ci-handover')">
+    <input type="checkbox" id="handoverDone">
+    <span>Work handover has been completed or planned before the effective date.</span>
+  </label>
+  <div class="field" style="margin-top:12px">
+    <label for="releaseRemarks">Remarks (if any)</label>
+    <textarea id="releaseRemarks" placeholder="Any additional remarks..." style="min-height:60px"></textarea>
+  </div>
+</div>
+
+<!-- ══ SECTION 5 — APPROVALS ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="sec-num">5</div>
+    <div class="sec-title">Approvals</div>
+    <div class="sec-line"></div>
+  </div>
+  <div class="info-note">&#9432; Enter name — signature will be generated automatically. Date fields are required for each approver.</div>
+  <div class="approval-grid">
+
+    <!-- Releasing PM -->
+    <div class="approval-card">
+      <div class="card-title">Releasing Project Manager</div>
+      <div class="field">
+        <label>Name</label>
+        <input type="text" id="relPMName" placeholder="Full name" oninput="autoSign('relPMName','sig-relPM')">
+      </div>
+      <div class="sig-wrap">
+        <div class="sig-box" id="sig-relPM">
+          <span class="sig-placeholder">Signature appears here</span>
+        </div>
+        <div class="sig-label">Auto-generated signature</div>
+      </div>
+      <div class="field" style="margin-top:10px">
+        <label>Date</label>
+        <input type="date" id="relPMDate" min="2000-01-01" max="2099-12-31">
+      </div>
+    </div>
+
+    <!-- Releasing ZH -->
+    <div class="approval-card">
+      <div class="card-title">Releasing Zonal Head / COO</div>
+      <div class="field">
+        <label>Name</label>
+        <input type="text" id="relZHName" placeholder="Full name" oninput="autoSign('relZHName','sig-relZH')">
+      </div>
+      <div class="sig-wrap">
+        <div class="sig-box" id="sig-relZH">
+          <span class="sig-placeholder">Signature appears here</span>
+        </div>
+        <div class="sig-label">Auto-generated signature</div>
+      </div>
+      <div class="field" style="margin-top:10px">
+        <label>Date</label>
+        <input type="date" id="relZHDate" min="2000-01-01" max="2099-12-31">
+      </div>
+    </div>
+
+    <!-- Receiving PM -->
+    <div class="approval-card">
+      <div class="card-title">Receiving Project Manager</div>
+      <div class="field">
+        <label>Name</label>
+        <input type="text" id="recPMName" placeholder="Full name" oninput="autoSign('recPMName','sig-recPM')">
+      </div>
+      <div class="sig-wrap">
+        <div class="sig-box" id="sig-recPM">
+          <span class="sig-placeholder">Signature appears here</span>
+        </div>
+        <div class="sig-label">Auto-generated signature</div>
+      </div>
+      <div class="field" style="margin-top:10px">
+        <label>Date</label>
+        <input type="date" id="recPMDate" min="2000-01-01" max="2099-12-31">
+      </div>
+    </div>
+
+    <!-- Receiving ZH -->
+    <div class="approval-card">
+      <div class="card-title">Receiving Zonal Head / COO</div>
+      <div class="field">
+        <label>Name</label>
+        <input type="text" id="recZHName" placeholder="Full name" oninput="autoSign('recZHName','sig-recZH')">
+      </div>
+      <div class="sig-wrap">
+        <div class="sig-box" id="sig-recZH">
+          <span class="sig-placeholder">Signature appears here</span>
+        </div>
+        <div class="sig-label">Auto-generated signature</div>
+      </div>
+      <div class="field" style="margin-top:10px">
+        <label>Date</label>
+        <input type="date" id="recZHDate" min="2000-01-01" max="2099-12-31">
+      </div>
+    </div>
+
+    <!-- Site HR — full width -->
+    <div class="approval-card" style="grid-column:1/-1">
+      <div class="card-title">Site HR &nbsp;&mdash;&nbsp; <span style="font-weight:500;text-transform:none;letter-spacing:0;color:#5a0000;font-size:11px">I have verified that the required approvals have been obtained.</span></div>
+      <div class="grid-2">
+        <div>
+          <div class="field">
+            <label>Name</label>
+            <input type="text" id="siteHRName" placeholder="Site HR full name" oninput="autoSign('siteHRName','sig-siteHR')">
+          </div>
+          <div class="sig-wrap">
+            <div class="sig-box" id="sig-siteHR">
+              <span class="sig-placeholder">Signature appears here</span>
+            </div>
+            <div class="sig-label">Auto-generated signature</div>
+          </div>
+        </div>
+        <div class="field" style="margin-top:0">
+          <label>Date</label>
+          <input type="date" id="siteHRDate" min="2000-01-01" max="2099-12-31">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ HR USE ONLY ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="sec-num" style="background:#3a0000">&#9733;</div>
+    <div class="sec-title" style="color:#3a0000">For HR Use Only</div>
+    <div class="sec-line"></div>
+  </div>
+  <div class="hr-section">
+    <div class="hr-tag">&#128274; HR Internal</div>
+    <div class="grid-2" style="margin-bottom:14px">
+      <div class="field">
+        <label>Effective Date</label>
+        <input type="date" id="hrEffectiveDate" min="2000-01-01" max="2099-12-31">
+      </div>
+      <div class="field">
+        <label>Date</label>
+        <input type="date" id="hrDate" min="2000-01-01" max="2099-12-31">
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Attendance Updated</label>
+        <div class="option-group">
+          <label class="opt-item" id="lbl-att-yes" onclick="selectHR('att','Yes')"><input type="radio" name="attendance" value="Yes"> Yes</label>
+          <label class="opt-item" id="lbl-att-no"  onclick="selectHR('att','No')"><input type="radio" name="attendance" value="No"> No</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Payroll Informed</label>
+        <div class="option-group">
+          <label class="opt-item" id="lbl-pay-yes" onclick="selectHR('pay','Yes')"><input type="radio" name="payroll" value="Yes"> Yes</label>
+          <label class="opt-item" id="lbl-pay-no"  onclick="selectHR('pay','No')"><input type="radio" name="payroll" value="No"> No</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</form>
+</div><!-- form-body -->
+
+<!-- ══ SUBMIT ══ -->
+<div class="submit-wrap">
+  <button type="button" class="btn-submit" id="btnSubmit" onclick="handleSubmit()">
+    <span id="btnText">&#128196; Submit Transfer Request</span>
+    <div class="spinner" id="spinner"></div>
+  </button>
+  <div class="toast" id="toast"></div>
+</div>
+
+</div><!-- page-wrap -->
+
+<script>
+// ═══════════════════════════════════════════════════
+//  Paste your Google Apps Script Web App URL here
+// ═══════════════════════════════════════════════════
+var SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+// ── AUTO SIGNATURE ────────────────────────────────
+function autoSign(inputId, boxId) {
+  var name = document.getElementById(inputId).value.trim();
+  var box  = document.getElementById(boxId);
+  box.innerHTML = "";
+
+  if (!name) {
+    var ph = document.createElement("span");
+    ph.className = "sig-placeholder";
+    ph.textContent = "Signature appears here";
+    box.appendChild(ph);
+    return;
+  }
+
+  // Generate cursive signature text
+  var sigText = document.createElement("div");
+  sigText.className = "sig-name-display";
+
+  // Add a slight stylistic variation — first letter bigger
+  var parts = name.split(" ");
+  var styled = parts.map(function(w) {
+    return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+  }).join(" ");
+
+  sigText.textContent = styled;
+  box.appendChild(sigText);
+
+  // Underline stroke using canvas
+  var canvas = document.createElement("canvas");
+  canvas.style.position = "absolute";
+  canvas.style.bottom   = "10px";
+  canvas.style.left     = "0";
+  canvas.style.width    = "100%";
+  canvas.style.height   = "8px";
+  canvas.style.pointerEvents = "none";
+  box.appendChild(canvas);
+
+  // Draw underline on next tick when size is known
+  setTimeout(function() {
+    canvas.width  = box.offsetWidth;
+    canvas.height = 8;
+    var ctx = canvas.getContext("2d");
+    ctx.strokeStyle = "#1a0a0a";
+    ctx.lineWidth   = 1.2;
+    ctx.beginPath();
+    var startX = box.offsetWidth * 0.08;
+    var endX   = box.offsetWidth * 0.92;
+    ctx.moveTo(startX, 4);
+    // Slight curve
+    ctx.bezierCurveTo(
+      startX + (endX - startX) * 0.3, 2,
+      startX + (endX - startX) * 0.7, 6,
+      endX, 4
+    );
+    ctx.stroke();
+  }, 50);
+}
+
+// ── Transfer type ─────────────────────────────────
+function selectTransferType(val) {
+  document.getElementById("lbl-temp").classList.toggle("selected", val==="Temporary");
+  document.getElementById("lbl-perm").classList.toggle("selected", val==="Permanent");
+  document.getElementById("transferTypeGroup").classList.remove("error");
+  document.getElementById("err-transferType").classList.remove("show");
+}
+
+// ── Reason ────────────────────────────────────────
+function selectReason(lbl) {
+  document.querySelectorAll("#reasonGroup .opt-item").forEach(function(el){el.classList.remove("selected")});
+  document.getElementById("otherWrap").classList.remove("selected");
+  if (lbl) lbl.classList.add("selected");
+  document.getElementById("reasonGroup").classList.remove("error");
+  document.getElementById("err-reason").classList.remove("show");
+}
+function selectReasonOther() {
+  document.querySelectorAll("#reasonGroup .opt-item").forEach(function(el){el.classList.remove("selected")});
+  document.getElementById("radioOther").checked = true;
+  document.getElementById("otherWrap").classList.add("selected");
+  document.getElementById("reasonOther").focus();
+  document.getElementById("reasonGroup").classList.remove("error");
+  document.getElementById("err-reason").classList.remove("show");
+}
+
+// ── Confirm checkboxes ────────────────────────────
+function toggleConfirm(cbId, wrapId) {
+  var cb = document.getElementById(cbId);
+  cb.checked = !cb.checked;
+  document.getElementById(wrapId).classList.toggle("checked", cb.checked);
+}
+
+// ── HR options ────────────────────────────────────
+function selectHR(grp, val) {
+  if (grp==="att") {
+    document.getElementById("lbl-att-yes").classList.toggle("selected", val==="Yes");
+    document.getElementById("lbl-att-no").classList.toggle("selected",  val==="No");
+  } else {
+    document.getElementById("lbl-pay-yes").classList.toggle("selected", val==="Yes");
+    document.getElementById("lbl-pay-no").classList.toggle("selected",  val==="No");
+  }
+}
+
+// ── Validation ────────────────────────────────────
+function clearErrors() {
+  document.querySelectorAll(".error").forEach(function(el){el.classList.remove("error")});
+  document.querySelectorAll(".err-msg.show").forEach(function(el){el.classList.remove("show")});
+  document.querySelectorAll(".option-group.error").forEach(function(el){el.classList.remove("error")});
+}
+function setErr(fid, eid) {
+  var f=document.getElementById(fid), e=document.getElementById(eid);
+  if(f) f.classList.add("error");
+  if(e) e.classList.add("show");
+}
+function validate() {
+  clearErrors(); var ok=true;
+  [["empName","err-empName"],["empId","err-empId"],["designation","err-designation"],
+   ["department","err-department"],["currentProject","err-currentProject"],
+   ["proposedProject","err-proposedProject"],["currentRM","err-currentRM"],
+   ["receivingRM","err-receivingRM"],["effectiveDate","err-effectiveDate"],
+   ["justification","err-justification"]
+  ].forEach(function(r){
+    var el=document.getElementById(r[0]);
+    if(!el||!el.value.trim()){setErr(r[0],r[1]);ok=false;}
+  });
+  if(!document.querySelector('input[name="transferType"]:checked')){
+    document.getElementById("transferTypeGroup").classList.add("error");
+    document.getElementById("err-transferType").classList.add("show"); ok=false;
+  }
+  if(!document.querySelector('input[name="reason"]:checked')){
+    document.getElementById("reasonGroup").classList.add("error");
+    document.getElementById("err-reason").classList.add("show"); ok=false;
+  }
+  if(!ok){
+    var first=document.querySelector(".error,.err-msg.show");
+    if(first) first.scrollIntoView({behavior:"smooth",block:"center"});
+  }
+  return ok;
+}
+
+// ── Submit ────────────────────────────────────────
+function handleSubmit() {
+  if (!validate()) return;
+  if (SCRIPT_URL==="YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE") {
+    showToast("error","SCRIPT_URL set nahi ki! HTML file mein Apps Script URL paste karo.");
+    return;
+  }
+  setLoading(true);
+  var ttEl=document.querySelector('input[name="transferType"]:checked');
+  var rsEl=document.querySelector('input[name="reason"]:checked');
+  var attEl=document.querySelector('input[name="attendance"]:checked');
+  var payEl=document.querySelector('input[name="payroll"]:checked');
+  var payload={
+    formDate:document.getElementById("formDate").value,
+    empName:document.getElementById("empName").value.trim(),
+    empId:document.getElementById("empId").value.trim(),
+    designation:document.getElementById("designation").value.trim(),
+    department:document.getElementById("department").value.trim(),
+    currentProject:document.getElementById("currentProject").value.trim(),
+    proposedProject:document.getElementById("proposedProject").value.trim(),
+    currentRM:document.getElementById("currentRM").value.trim(),
+    receivingRM:document.getElementById("receivingRM").value.trim(),
+    effectiveDate:document.getElementById("effectiveDate").value,
+    transferType:ttEl?ttEl.value:"",
+    reasonChecked:rsEl?rsEl.value:"",
+    reasonOther:document.getElementById("reasonOther").value.trim(),
+    justification:document.getElementById("justification").value.trim(),
+    canRelease:document.getElementById("canRelease").checked,
+    handoverDone:document.getElementById("handoverDone").checked,
+    releaseRemarks:document.getElementById("releaseRemarks").value.trim(),
+    relPMName:document.getElementById("relPMName").value.trim(),
+    relPMDate:document.getElementById("relPMDate").value,
+    relZHName:document.getElementById("relZHName").value.trim(),
+    relZHDate:document.getElementById("relZHDate").value,
+    recPMName:document.getElementById("recPMName").value.trim(),
+    recPMDate:document.getElementById("recPMDate").value,
+    recZHName:document.getElementById("recZHName").value.trim(),
+    recZHDate:document.getElementById("recZHDate").value,
+    siteHRName:document.getElementById("siteHRName").value.trim(),
+    siteHRDate:document.getElementById("siteHRDate").value,
+    hrEffectiveDate:document.getElementById("hrEffectiveDate").value,
+    attendanceUpdated:attEl?attEl.value:"",
+    payrollInformed:payEl?payEl.value:"",
+    hrDate:document.getElementById("hrDate").value
+  };
+  fetch(SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(payload)})
+  .then(function(r){return r.json();})
+  .then(function(res){
+    setLoading(false);
+    if(res.status==="success"){
+      showToast("success","&#10003; Transfer Request submitted successfully!");
+      document.getElementById("transferForm").reset();
+      document.querySelectorAll(".opt-item").forEach(function(el){el.classList.remove("selected")});
+      document.querySelectorAll(".confirm-item").forEach(function(el){el.classList.remove("checked")});
+      document.getElementById("otherWrap").classList.remove("selected");
+      ["sig-relPM","sig-relZH","sig-recPM","sig-recZH","sig-siteHR"].forEach(function(id){
+        var b=document.getElementById(id);
+        b.innerHTML='<span class="sig-placeholder">Signature appears here</span>';
+      });
+    } else {
+      showToast("error","Submission failed: "+(res.message||"Unknown error."));
+    }
+  })
+  .catch(function(err){setLoading(false);showToast("error","Network error: "+err.message);});
+}
+
+function setLoading(on){
+  document.getElementById("btnSubmit").disabled=on;
+  document.getElementById("spinner").style.display=on?"block":"none";
+  document.getElementById("btnText").textContent=on?"Submitting…":"📄 Submit Transfer Request";
+}
+function showToast(type,msg){
+  var t=document.getElementById("toast");
+  t.className="toast "+type;t.innerHTML=msg;t.style.display="flex";
+  t.scrollIntoView({behavior:"smooth",block:"nearest"});
+  if(type==="success") setTimeout(function(){t.style.display="none";},8000);
+}
+</script>
+</body>
+</html>
